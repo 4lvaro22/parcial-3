@@ -1,0 +1,22 @@
+{%extends "base.jinja" %}
+
+{% block title %} Página principal {% endblock %}
+
+{% block body %}
+
+{%if user != undefined and user != None %}
+{% for entity in entities_list:%}
+
+{%include "card.jinja"%}
+
+{%endfor%}
+
+{%else%}
+
+{% include "error-403.jinja"%}
+
+{% endif %}
+
+
+
+{% endblock %}

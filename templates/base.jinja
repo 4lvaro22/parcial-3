@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Website{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.1.1/dist/cdn.min.js"></script>
+
+
+    {% include "auth.jinja" %}
+</head>
+
+<body>
+    {% include "header.jinja" %}
+    {%if user != undefined and user != None %}
+        <main class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-4">
+    {% else %}
+        <main class="bg-white p-4">
+    {% endif %}
+        {% block body %}{% endblock %}
+    </main>
+
+    {% include "footer.jinja" %}
+</body>
+
+</html>

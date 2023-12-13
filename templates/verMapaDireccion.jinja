@@ -1,0 +1,17 @@
+{%extends "base.jinja"%}
+
+{%block body%}
+<h2>Ver mapa direccion</h2>
+<table border>
+      <tbody>
+            <tr>
+                  <td>Direccion</td>
+                  <td>
+                        <p id="lugar">{{ entity.direccion }}</p>
+                  </td>
+            </tr>
+      </tbody>
+
+</table>
+{% include 'mapaDireccion.jinja' %}
+{%endblock%}

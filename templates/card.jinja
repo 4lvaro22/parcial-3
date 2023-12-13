@@ -1,0 +1,59 @@
+<div
+    class="mx-auto flex flex-row justify-center max-w-lg md:mb-8 mt-4 bg-white rounded-lg items-center relative md:p-0 p-8">
+    <div class="h-full relative">
+        <div class="py-2 px-2">
+            <div class="flex justify-between items-center py-2">
+                <div class="relative mt-1 flex">
+                    <div class="mr-2">
+                        <img src={{entity.userphoto}} class="w-10 h-10 rounded-full object-cover">
+                    </div>
+                    <div class="ml-3 flex justify-start flex-col items-start">
+                        <p class="text-gray-900 text-sm">
+                            {{entity.username}}
+                        </p>
+                        <p class="text-gray-600 text-xs">
+                            {{entity.email}}
+                        </p>
+                    </div>
+                    {% if user.email == entity.email%}
+
+                    <div>
+                        <a href="/editar/{{entity.id}}" class=" mx-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editar</a>
+                    </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+        <hr />
+        <div>
+            <h3 class="text-lg text-center font-bold">Titulo: {{entity.name}}</h3>
+        </div>
+        <div class="relative w-full h-full">
+            <img src={{entity.images}} class="w-full h-full object-cover">
+        </div>
+        <div>
+            <!-- System Like and tools Feed -->
+            <div class="flex justify-between items-start p-2 py-">
+                <div class="flex space-x-2 items-center">
+                    <p>{{entity.description}}</p>
+                </div>
+            </div>
+            <hr />
+            <div class="text-center">
+                <a class="underline text-blue-500" href='/mapa/{{ entity.id }}'>Ver mapa mediante coordenadas</a>
+            </div>
+            <div class="text-center">
+                <a class="underline text-blue-500" href='/mapa/direccion/{{ entity.id }}'>Ver mapa mediante
+                    localización</a>
+            </div>
+            <hr />
+            <div class="p-2 flex flex-col space-y-3 ">
+                <div class="w-full">
+                    <p class="font-normal text-xs text-gray-500">Creado: {{entity.created_at}}</p>
+                    <p class="font-normal text-xs text-gray-500">Editado: {{entity.updated_at}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

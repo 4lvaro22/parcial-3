@@ -1,0 +1,15 @@
+{%extends "base.jinja" %}
+
+{% block title %} Tus publicaciones {% endblock %}
+
+{% block body %}
+
+{% for entity in entities_list:%}
+
+{%include "card.jinja"%}
+
+{%endfor%}
+
+
+
+{% endblock %}
