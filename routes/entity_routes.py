@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, UploadFile, Depends, status, Body
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import Response
+from fastapi.responses import RedirectResponse
 from config.database import entity_collection
 from schemas.entity import entityList
 from datetime import datetime
@@ -49,7 +49,7 @@ async def show_entity(request: Request, user = Depends(get_user_token)):
 async def create_entity(request: Request, user = Depends(get_user_token)):  
     return templates.TemplateResponse("crearEntidad.jinja", {"request": request, "user": user})
 
-@entity.post("/crear", response_class=Jinja2Templates)
+@entity.post("/crear", response_class=RedirectResponse)
 async def create_entity(request: Request, file: UploadFile = None, user = Depends(get_user_token)): # list[UploadFile] = []):
     
     # cloudinary_response = []
@@ -67,7 +67,7 @@ async def create_entity(request: Request, file: UploadFile = None, user = Depend
     json_data["username"] = user["name"]
     entity_collection.insert_one(json_data)
 
-    return templates.TemplateResponse("index.jinja", {"request": request, "user": user})
+    return templates.TemplateResponse("confirm.jinja", {"request": request, "user": user})
 
 @entity.get("/editar/{id}", response_class=Jinja2Templates)
 async def update_entity(request: Request, id: str, user = Depends(get_user_token)):
@@ -88,7 +88,7 @@ async def update_entity(request: Request, id: str, file: UploadFile = None, user
 
     entity_collection.update_one({"_id": ObjectId(id)}, {"$set": {**json_data}})
 
-    return templates.TemplateResponse("index.jinja", {"request": request, "user": user})
+    return templates.TemplateResponse("confirm.jinja", {"request": request, "user": user})
 
 @entity.get("/borrar/{id}", response_class=Jinja2Templates)
 async def delete_entity(request: Request, id: str, user = Depends(get_user_token)):  
