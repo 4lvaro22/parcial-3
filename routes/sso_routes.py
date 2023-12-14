@@ -13,7 +13,7 @@ sso = APIRouter()
 @sso.post("/signin", response_class=Jinja2Templates)
 async def signin(request: Request, response: Response, token : str = Body()):
     try:
-        decoded_token = auth.verify_id_token(token)
+        decoded_token = auth.verify_id_token(token, clock_skew_seconds=10)
     except Exception as err:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
