@@ -103,4 +103,4 @@ async def delete_entity(request: Request, id: str, user = Depends(get_user_token
     
     entity_collection.delete_one({"_id": ObjectId(id)})
 
-    return templates.TemplateResponse("index.jinja", {"request": request, "user": user})
+    return RedirectResponse("/", status_code=302)
