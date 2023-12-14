@@ -46,7 +46,7 @@ async def show_entity(request: Request, user = Depends(get_user_token)):
     return templates.TemplateResponse("mostrarEntidad.jinja", {"request": request, "entities_list": result_list, "user": user})
 
 @entity.get("/crear", response_class=Jinja2Templates)
-async def create_entity(request: Request, user = Depends(get_user_token)):  
+async def create_entity(request: Request, user = Depends(get_user_token)):
     return templates.TemplateResponse("crearEntidad.jinja", {"request": request, "user": user})
 
 @entity.post("/crear", response_class=RedirectResponse)
@@ -71,7 +71,11 @@ async def create_entity(request: Request, file: UploadFile = None, user = Depend
 
 @entity.get("/editar/{id}", response_class=Jinja2Templates)
 async def update_entity(request: Request, id: str, user = Depends(get_user_token)):
+
     result = entity_collection.find_one({"_id": ObjectId(id)})
+
+    if user.email != result["email"]:
+        return templates.TemplateResponse("error-403.jinja", {"request": request, "user": user})
 
     return templates.TemplateResponse("editarEntidad.jinja", {"request": request, "entity": result, "user": user})
 
@@ -92,6 +96,11 @@ async def update_entity(request: Request, id: str, file: UploadFile = None, user
 
 @entity.get("/borrar/{id}", response_class=Jinja2Templates)
 async def delete_entity(request: Request, id: str, user = Depends(get_user_token)):  
+    result = entity_collection.find_one({"_id": ObjectId(id)})
+
+    if user.email != result["email"]:
+        return templates.TemplateResponse("error-403.jinja", {"request": request, "user": user})
+    
     entity_collection.delete_one({"_id": ObjectId(id)})
 
     return templates.TemplateResponse("index.jinja", {"request": request, "user": user})
