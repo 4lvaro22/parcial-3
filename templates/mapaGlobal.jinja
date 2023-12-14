@@ -1,0 +1,88 @@
+<div id="mapdiv" class=" w-full h-[70vh] mt-5 "></div>
+{#
+<script src="https://www.openlayers.org/api/OpenLayers.js"></script> #}
+<script src="https://openlayers.org/api/2.13.1/OpenLayers.js"></script>
+<script>
+    let i = 0;
+    const list = {{ lugares | length }};
+    let markers = new OpenLayers.Layer.Markers("Markers");
+    let coordinates = []
+    let map = new OpenLayers.Map("mapdiv");
+    map.addLayer(new OpenLayers.Layer.OSM());
+
+
+    {% for lugar in lugares: %}
+    fetchLugar("{{ lugar }}", (data) => {
+        addMarker(data, "{{ lugar }}")
+    });
+    {% endfor %}
+
+    async function fetchLugar(lugar, func) {
+        var url = "https://nominatim.openstreetmap.org/search?q=" + lugar +
+            "&format=json&addressdetails=1";
+
+        return fetch(url)
+            .then(response => {
+                if (!response.ok || response.status != 200) {
+                    throw new Error("HTTP error " + response.status);
+                }
+                return response;
+            })
+            .then(response => response.json())
+            .then(data => func(data));
+    }
+
+
+    if (i === 0) {
+        checkMap()
+    }
+
+    function checkMap() {
+        i++
+        if (i >= list) {
+
+            for (let i = 0; i < coordinates.length; i++) {
+                const lonLat2 = new OpenLayers.LonLat(coordinates[i].lon, coordinates[i].lat)
+                    .transform(
+                        new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+                        map.getProjectionObject() // to Spherical Mercator Projection
+                    );
+                markers.addMarker(new OpenLayers.Marker(lonLat2));
+            }
+
+            map.addLayer(markers);
+
+            fetchLugar("Málaga, España", (data) => {
+                lt = new OpenLayers.LonLat(data[0].lon, data[0].lat)
+                    .transform(
+                        new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+                        map.getProjectionObject() // to Spherical Mercator Projection
+                    );
+                var zoom = 12;
+                map.setCenter(lt, zoom);
+            });
+        }
+    }
+
+    function addMarker(data, place) {
+
+        if (data.length === 0) {
+            alert("No se encontró el lugar: " + place);
+
+            checkMap()
+            return;
+        }
+
+        console.log(data)
+
+        const lon = data[0].lon
+        const lat = data[0].lat
+
+        coordinates.push({
+            lon,
+            lat
+        })
+
+        checkMap()
+    }
+</script>

@@ -1,4 +1,4 @@
-<div id="mapdiv"></div>
+<div id="mapdiv" class="h-[70vh] flex"></div>
 <script src="https://openlayers.org/api/2.13.1/OpenLayers.js"></script>
 <script>
 
@@ -7,7 +7,7 @@
       xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = handleResponse;
 
-      var lugar = document.getElementById("lugar").innerHTML;
+      var lugar = document.getElementById("lugar") === null ? "Malaga" : document.getElementById("lugar").innerHTML;
 
       var url = "https://nominatim.openstreetmap.org/search?q=" + lugar +
             "&format=json&addressdetails=1";
@@ -38,7 +38,7 @@
 
                   map.addLayer(markers);
 
-                  var zoom = 6;
+                  var zoom = 13;
 
                   map.setCenter(lonLat, zoom);
 

@@ -1,32 +1,43 @@
-from fastapi import APIRouter, Request, UploadFile, Depends, status, Body
+from fastapi import APIRouter, Request, UploadFile, Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
-from config.database import entity_collection
+from config.database import entity_collection, filtrado_collection
 from schemas.entity import entityList
 from datetime import datetime
 from bson import ObjectId
 from config.template import templates
 from services.dependencies import get_user_token, get_user_token_ignore, formdata_to_json
 from services.cloudinary import setImage
+from pydantic import Field
 
 entity = APIRouter()
 
 @entity.get("/", response_class=Jinja2Templates)
 async def main(request: Request, user = Depends(get_user_token_ignore)):
-
     result_list = entityList(entity_collection.find())
 
     return templates.TemplateResponse("index.jinja", {"request": request, "entities_list": result_list, "user": user})
 
-@entity.get("/mostrar", response_class=Jinja2Templates)
-async def show_entity(request: Request, user = Depends(get_user_token)):
+@entity.post("/", response_class=Jinja2Templates)
+async def main(request: Request, user = Depends(get_user_token_ignore)):
+    formdata = await request.form()
+    json_data = formdata_to_json(formdata)
 
-    result_list = entityList(entity_collection.find())
+    filtrado_collection.insert_one({"timestamp": datetime.now(), "email": user["email"], "accion": f'/ {formdata}'})
 
-    if result_list == []:
-        return templates.TemplateResponse("sinDatos.jinja", {"request": request, "user": user})
+    if json_data != {}:
+        if json_data["busqueda"] != "":
+            result_list = entityList(entity_collection.find({"$or": [{"name": {"$regex": json_data["busqueda"], "$options": 'i'}}, {"description": {"$regex": json_data["busqueda"], "$options": 'i'}}]}))
+        if json_data["ubicacion"] != "":
+            if(json_data["busqueda"] == ""):
+                result_list = entityList(entity_collection.find())
+            result_list = [result for result in result_list if abs(result.latitud - float(json_data["lat"])) <= 10 and abs(result.longitud - float(json_data["lon"])) <= 10]
     else:
-        return templates.TemplateResponse("mostrarEntidad.jinja", {"request": request, "entities_list": result_list, "user": user})
+        result_list = entityList(entity_collection.find())
+
+    lugares = [lugar.direccion for lugar in result_list]
+
+    return templates.TemplateResponse("index.jinja", {"request": request, "entities_list": result_list, "user": user, "lugares": lugares})
 
 @entity.get("/mostrar/{email}", response_class=Jinja2Templates)
 async def show_entity(request: Request, user = Depends(get_user_token), email:str = None):

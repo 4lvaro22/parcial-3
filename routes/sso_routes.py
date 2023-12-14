@@ -2,10 +2,12 @@ from fastapi import APIRouter, Request, Depends, Response, status, Body
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from fastapi.exceptions import HTTPException
-from fastapi.templating import Jinja2Templates
 from config.template import templates
+from config.database import login_collection
 from firebase_admin import auth
 from services.dependencies import get_user_token
+from schemas.log import logEntity
+from datetime import datetime
 import services.firebase
 
 sso = APIRouter()
@@ -20,6 +22,8 @@ async def signin(request: Request, response: Response, token : str = Body()):
             detail=f"Invalid authentication from Firebase. {err}",
             headers={'WWW-Authenticate': 'Bearer error="invalid_token"'},
         )
+    
+    login_collection.insert_one({"timestamp": datetime.now(), "email": decoded_token["email"], "tokenId": token, "caducidad": datetime.fromtimestamp(decoded_token["exp"])})
 
     return templates.TemplateResponse("index.jinja", {"request": request})
 

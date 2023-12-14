@@ -13,6 +13,8 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 
 entity_db = client["Entity"]
 entity_collection = entity_db["Entity"]
+login_collection = entity_db["Login"]
+filtrado_collection = entity_db["Filtrado"]
 
 # Send a ping to confirm a successful connection
 try:

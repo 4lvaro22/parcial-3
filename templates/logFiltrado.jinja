@@ -1,0 +1,16 @@
+{%extends "base.jinja" %}
+
+{% block title %} Página principal {% endblock %}
+
+{% block body %}
+
+{% for log in logs:%}
+
+<div>
+    <p class="break-words">{{log.timestamp}} // {{log.email}} // {{log.accion}}</p>
+</div>
+
+{%endfor%}
+
+
+{% endblock %}
