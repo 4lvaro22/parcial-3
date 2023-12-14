@@ -67,7 +67,7 @@ async def create_entity(request: Request, file: UploadFile = None, user = Depend
     json_data["username"] = user["name"]
     entity_collection.insert_one(json_data)
 
-    return templates.TemplateResponse("confirm.jinja", {"request": request, "user": user})
+    return RedirectResponse("/", status_code=302)
 
 @entity.get("/editar/{id}", response_class=Jinja2Templates)
 async def update_entity(request: Request, id: str, user = Depends(get_user_token)):
@@ -92,7 +92,7 @@ async def update_entity(request: Request, id: str, file: UploadFile = None, user
 
     entity_collection.update_one({"_id": ObjectId(id)}, {"$set": {**json_data}})
 
-    return templates.TemplateResponse("confirm.jinja", {"request": request, "user": user})
+    return RedirectResponse("/", status_code=302)
 
 @entity.get("/borrar/{id}", response_class=Jinja2Templates)
 async def delete_entity(request: Request, id: str, user = Depends(get_user_token)):  
