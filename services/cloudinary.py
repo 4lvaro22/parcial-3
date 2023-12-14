@@ -4,13 +4,13 @@ import config.cloudinary
 from uuid import uuid4
 
 def setImage(entity : dict, image : UploadFile, key : str = "images",):
-    imagesUrl = None
+    imagesUrl = ""
 
-    if image.size > 0:
+    if image.size > 0 and image.content_type.startswith("image"):
         response = upload(image, folder="parcial3/")
         imagesUrl = response
-
-    entity[key] = imagesUrl
+    if imagesUrl != "":
+        entity[key] = imagesUrl
 
 def upload(file, folder=""):
     if file is None:

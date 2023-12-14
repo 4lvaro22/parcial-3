@@ -74,7 +74,7 @@ async def update_entity(request: Request, id: str, user = Depends(get_user_token
 
     result = entity_collection.find_one({"_id": ObjectId(id)})
 
-    if user.email != result["email"]:
+    if user["email"] != result["email"]:
         return templates.TemplateResponse("error-403.jinja", {"request": request, "user": user})
 
     return templates.TemplateResponse("editarEntidad.jinja", {"request": request, "entity": result, "user": user})
@@ -98,7 +98,7 @@ async def update_entity(request: Request, id: str, file: UploadFile = None, user
 async def delete_entity(request: Request, id: str, user = Depends(get_user_token)):  
     result = entity_collection.find_one({"_id": ObjectId(id)})
 
-    if user.email != result["email"]:
+    if user["email"] != result["email"]:
         return templates.TemplateResponse("error-403.jinja", {"request": request, "user": user})
     
     entity_collection.delete_one({"_id": ObjectId(id)})
