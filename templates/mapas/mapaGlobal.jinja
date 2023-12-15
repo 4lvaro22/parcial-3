@@ -10,16 +10,15 @@
     let map = new OpenLayers.Map("mapdiv");
     map.addLayer(new OpenLayers.Layer.OSM());
 
-
     {% for lugar in lugares: %}
     fetchLugar("{{ lugar }}", (data) => {
         addMarker(data, "{{ lugar }}")
+
     });
     {% endfor %}
 
     async function fetchLugar(lugar, func) {
-        var url = "https://nominatim.openstreetmap.org/search?q=" + lugar +
-            "&format=json&addressdetails=1";
+        var url = "https://nominatim.openstreetmap.org/search?q=" + lugar + "&format=json&addressdetails=1";
 
         return fetch(url)
             .then(response => {

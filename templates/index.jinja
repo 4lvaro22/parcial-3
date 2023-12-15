@@ -39,16 +39,16 @@
 </form>
 {% for entity in entities_list:%}
 
-{%include "card.jinja"%}
+{%include "components/card.jinja"%}
 
 {%endfor%}
 
 {%else%}
 
-{% include "error.jinja"%}
+{% include "error/error.jinja"%}
 
 {% endif %}
-{% include "mapaGlobal.jinja"%}
+{% include "mapas/mapaGlobal.jinja"%}
 <script>
     function filtrar() {
         if (document.getElementById("ubicacion").value != "") {
