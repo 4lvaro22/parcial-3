@@ -5,7 +5,7 @@
 <title>Editar entidad</title>
 {% endblock %}
 {% block body %}
-<form class="bg-white rounded-md p-5" id="editar" onsubmit="editar()" method="post" enctype="multipart/form-data">
+<form class="bg-white rounded-md p-5" id="editar" onsubmit="editar();" method="post" enctype="multipart/form-data">
     <div class="space-y-12">
         <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-2xl font-bold leading-7 text-gray-900">Crear publicacion</h2>
@@ -81,6 +81,8 @@
         <button type="submit"
             class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Publicar</button>
     </div>
+    <input type="hidden" name="latitud" id="latitud">
+    <input type="hidden" name="longitud" id="longitud">
 </form>
 <script>
     function editar() {

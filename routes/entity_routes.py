@@ -26,11 +26,13 @@ async def main(request: Request, user = Depends(get_user_token_ignore)):
     filtrado_collection.insert_one({"timestamp": datetime.now(), "email": user["email"], "accion": f'/ {formdata}'})
 
     if json_data != {}:
-        if json_data["busqueda"] != "":
+        if json_data["ubicacion"] == "":
             result_list = entityList(entity_collection.find({"$or": [{"name": {"$regex": json_data["busqueda"], "$options": 'i'}}, {"description": {"$regex": json_data["busqueda"], "$options": 'i'}}]}))
-        if json_data["ubicacion"] != "":
-            if(json_data["busqueda"] == ""):
-                result_list = entityList(entity_collection.find())
+        elif json_data["busqueda"] == "":
+            result_list = entityList(entity_collection.find())
+            result_list = [result for result in result_list if abs(result.latitud - float(json_data["lat"])) <= 10 and abs(result.longitud - float(json_data["lon"])) <= 10]
+        else:
+            result_list = entityList(entity_collection.find({"$or": [{"name": {"$regex": json_data["busqueda"], "$options": 'i'}}, {"description": {"$regex": json_data["busqueda"], "$options": 'i'}}]}))
             result_list = [result for result in result_list if abs(result.latitud - float(json_data["lat"])) <= 10 and abs(result.longitud - float(json_data["lon"])) <= 10]
     else:
         result_list = entityList(entity_collection.find())
@@ -76,8 +78,6 @@ async def create_entity(request: Request, file: UploadFile = None, user = Depend
     json_data["email"] = user["firebase"]["identities"]["email"][0]
     json_data["userphoto"] = user["picture"]
     json_data["username"] = user["name"]
-
-    print(json_data)
 
     entity_collection.insert_one(json_data)
 
