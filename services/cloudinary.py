@@ -20,7 +20,7 @@ def upload(file, folder=""):
 
     file.filename = str(public_id)
     
-    response = upload_image(file.file, folder)
+    response = upload_image(file.file, folder=folder)
     
     if response is None:
         raise HTTPException(status_code=500, detail="Internal Server Error")
