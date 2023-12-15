@@ -7,8 +7,9 @@
 {% for log in logs:%}
 
 <div>
-    <p class="break-words">{{log.timestamp}} // {{log.email}} // {{log.caducidad}} // {{log.tokenId}}</p>
+    <p class="break-words">{{log.timestamp}} <strong>//</strong> {{log.email}} <strong>//</strong> {{log.caducidad}} <strong>//</strong> {{log.tokenId}}</p>
 </div>
+<hr class="my-3">
 
 {%endfor%}
 

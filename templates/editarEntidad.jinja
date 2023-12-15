@@ -5,7 +5,7 @@
 <title>Editar entidad</title>
 {% endblock %}
 {% block body %}
-<form class="bg-white rounded-md p-5" method="post" enctype="multipart/form-data">
+<form class="bg-white rounded-md p-5" id="editar" onsubmit="editar()" method="post" enctype="multipart/form-data">
     <div class="space-y-12">
         <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-2xl font-bold leading-7 text-gray-900">Crear publicacion</h2>
@@ -82,4 +82,39 @@
             class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Publicar</button>
     </div>
 </form>
+<script>
+    function editar() {
+        if (document.getElementById("direccion").value != "") {
+            event.preventDefault();
+
+            var xhttp;
+
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = handleResponse;
+
+            var lugar = document.getElementById("direccion").value;
+
+            var url = "https://nominatim.openstreetmap.org/search?q=" + lugar +
+                "&format=json&addressdetails=1";
+
+            console.log(url);
+            xhttp.open("GET", url, true);
+            xhttp.send(null);
+
+            function handleResponse() {
+
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+                    var response = xhttp.responseText;
+                    var texto = JSON.parse(response);
+
+                    document.getElementById("latitud").value = texto[0].lat;
+                    document.getElementById("longitud").value = texto[0].lon;
+                    const forms = document.forms.editar
+                    forms.submit()
+                }
+            }
+        }
+    }
+</script>
 {% endblock %}

@@ -76,6 +76,9 @@ async def create_entity(request: Request, file: UploadFile = None, user = Depend
     json_data["email"] = user["firebase"]["identities"]["email"][0]
     json_data["userphoto"] = user["picture"]
     json_data["username"] = user["name"]
+
+    print(json_data)
+
     entity_collection.insert_one(json_data)
 
     return RedirectResponse("/", status_code=302)
