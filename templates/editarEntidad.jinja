@@ -12,7 +12,8 @@
 
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-4">
-                    <label for="titulo" class="block text-sm font-medium leading-6 text-gray-900">Nombre del evento</label>
+                    <label for="titulo" class="block text-sm font-medium leading-6 text-gray-900">Nombre del
+                        evento</label>
                     <div class="mt-2">
                         <div
                             class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -24,7 +25,8 @@
                 </div>
 
                 <div class="col-span-full">
-                    <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Foto del evento</label>
+                    <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Foto del
+                        evento</label>
                     <div class="text-center flex justify-content-center">
                         <div class="">
                             <label for="imagen">Imagen actual</label>
@@ -62,14 +64,16 @@
                     <input id="lugar" name="lugar" type="text" value="{{entity.lugar}}"
                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
+                <p class="text-red-500" id="avisoLugar"></p>
             </div>
         </div>
         <div class="border-b border-gray-900/10 pb-12">
             <div class="sm:col-span-4">
-                <label for="timestamp" class="block text-sm font-medium leading-6 text-gray-900">Fecha y hora del evento</label>
+                <label for="timestamp" class="block text-sm font-medium leading-6 text-gray-900">Fecha y hora del
+                    evento</label>
                 <div class="mt-2">
                     <p>Fecha anterior: {{entity.timestamp}}</p>
-                    <input id="timestamp" name="timestamp" type="datetime-local" required 
+                    <input id="timestamp" name="timestamp" type="datetime-local" required
                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
             </div>
@@ -109,10 +113,14 @@
                     var response = xhttp.responseText;
                     var texto = JSON.parse(response);
 
-                    document.getElementById("latitud").value = texto[0].lat;
-                    document.getElementById("longitud").value = texto[0].lon;
-                    const forms = document.forms.editar
-                    forms.submit()
+                    if (texto == null) {
+                        document.getElementById("avisoLugar").innerHTML = "Lugar no encontrado. Pruebe con otro."
+                    } else {
+                        document.getElementById("latitud").value = texto[0].lat;
+                        document.getElementById("longitud").value = texto[0].lon;
+                        const forms = document.forms.editar
+                        forms.submit()
+                    }
                 }
             }
         }
