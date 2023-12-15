@@ -21,8 +21,8 @@ async def main(request: Request, user = Depends(get_user_token_ignore)):
 async def main(request: Request, user = Depends(get_user_token_ignore)):
     formdata = await request.form()
     json_data = formdata_to_json(formdata)
-
-    if json_data != {}:
+    
+    if json_data != {} and json_data["ubicacion"] != '':
         result_list = eventosList(eventos_collection.find().sort("timestamp", pymongo.ASCENDING))
         result_list = [result for result in result_list if abs(result.latitud - float(json_data["lat"])) <= 0.2 and abs(result.longitud - float(json_data["lon"])) <= 0.2]
     else:
