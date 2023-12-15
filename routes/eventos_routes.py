@@ -74,8 +74,10 @@ async def update_entity(request: Request, id: str, file: UploadFile = None, user
 
     if file.size > 0:
         setImage(json_data, image=file)
-
-    json_data["timestamp"] = datetime.strptime(json_data["timestamp"],'%Y-%m-%dT%H:%M')
+    if(json_data["timestamp"] != ''):
+        json_data["timestamp"] = datetime.strptime(json_data["timestamp"],'%Y-%m-%dT%H:%M')
+    else:
+        del json_data["timestamp"]
 
     eventos_collection.update_one({"_id": ObjectId(id)}, {"$set": {**json_data}})
 
