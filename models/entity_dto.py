@@ -2,21 +2,12 @@ from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional
 
-class Entity (BaseModel):
+class Eventos (BaseModel):
     id: str
     name: str
-    description: str
-    created_at: datetime
-    updated_at: datetime
-    images: Optional[str] #list[str]
+    timestamp: datetime
+    images: str
     latitud: float
     longitud: float
-    direccion: str
-    userphoto: str
-    username: str
-    email:str
-
-    
-class EntityForm (BaseModel):
-    name: str
-    description: str
+    lugar: str
+    organizador:str

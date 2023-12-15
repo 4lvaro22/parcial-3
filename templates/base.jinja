@@ -16,11 +16,7 @@
 
 <body>
     {% include "components/header.jinja" %}
-    {%if user != undefined and user != None %}
         <main class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-4">
-    {% else %}
-        <main class="bg-white p-4">
-    {% endif %}
         {% block body %}{% endblock %}
     </main>
 

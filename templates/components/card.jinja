@@ -4,22 +4,12 @@
         <div class="py-2 px-2">
             <div class="flex justify-between items-center py-2">
                 <div class="relative mt-1 flex">
-                    <a href="/mostrar/{{entity.email}}">
-                        <div class="mr-2">
-                            <img src={{entity.userphoto}} class="w-10 h-10 rounded-full object-cover">
-                        </div>
-                    </a>
-                    <a href="/mostrar/{{entity.email}}">
-                        <div class="ml-3 flex justify-start flex-col items-start">
-                            <p class="text-gray-900 text-sm">
-                                {{entity.username}}
-                            </p>
-                            <p class="text-gray-600 text-xs">
-                                {{entity.email}}
-                            </p>
-                        </div>
-                    </a>
-                    {% if user.email == entity.email%}
+                    <div class="ml-3 flex justify-start flex-col items-start">
+                        <p class="text-gray-600 text-xs">
+                            Correo del organizador: {{entity.organizador}}
+                        </p>
+                    </div>
+                    {% if user.email == entity.organizador%}
 
                     <div>
                         <a href="/editar/{{entity.id}}"
@@ -36,55 +26,24 @@
         </div>
         <hr />
         <div>
-            <h3 class="text-lg text-center font-bold">Titulo: {{entity.name}}</h3>
+            <h3 class="text-lg text-center font-bold">Nombre del evento: {{entity.name}}</h3>
         </div>
         <div class="relative w-full h-full">
             <img src={{entity.images}} class="w-full h-full object-cover">
         </div>
         <div>
-            <!-- System Like and tools Feed -->
-            <div class="flex justify-between items-start p-2 py-">
-                <div class="flex space-x-2 items-center">
-                    <p>{{entity.description}}</p>
-                </div>
-            </div>
-            {#
-            <hr />
-            <div class="text-center">
-                <a class="underline text-blue-500" href='/mapa/{{ entity.id }}'>Ver mapa mediante coordenadas</a>
-            </div>
-            <div class="text-center">
-                <a class="underline text-blue-500" href='/mapa/direccion/{{ entity.id }}'></a>
-                <svg class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                </a>
-                <a class="underline text-blue-500" href='/mapa/direccion/{{ entity.id }}'>Ver mapa mediante
-                    localización
-                </a>
-            </div>
-            #}
             <hr />
             <div class="p-2 flex flex-col space-y-3 flex flex-row">
                 <div>
-                    <p class="font-normal text-xs text-gray-500">Creado: {{entity.created_at}}</p>
-                    <p class="font-normal text-xs text-gray-500">Editado: {{entity.updated_at}}</p>
+                    <p class="font-normal text-xs text-gray-500">Fecha y hora del evento: {{entity.timestamp}}</p>
                 </div>
-                <div>
-                    <a class="h-8 w-8 text-black-500 bg-slate-200 hover:bg-slate-400 rounded-lg"
-                        href='/mapa/direccion/{{ entity.id }}'>
-                        <svg class="h-8 w-8 text-black-500 bg-slate-200 hover:bg-slate-400 rounded-lg" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </a>
+                {% if entities_list != undefined%}
+                <div class="mx-auto bg-white">
+                    <a href="/mostrar/{{entity.id}}"
+                        class=" mx-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ver más
+                        detalles</a>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

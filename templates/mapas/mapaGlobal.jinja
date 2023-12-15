@@ -31,11 +31,6 @@
             .then(data => func(data));
     }
 
-
-    if (i === 0) {
-        checkMap()
-    }
-
     function checkMap() {
         i++
         if (i >= list) {
@@ -51,7 +46,7 @@
 
             map.addLayer(markers);
 
-            fetchLugar("Málaga, España", (data) => {
+            fetchLugar("{{ principal }}", (data) => {
                 lt = new OpenLayers.LonLat(data[0].lon, data[0].lat)
                     .transform(
                         new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984

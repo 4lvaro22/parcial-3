@@ -8,11 +8,11 @@
 <form class="bg-white rounded-md p-5" id="editar" onsubmit="editar();" method="post" enctype="multipart/form-data">
     <div class="space-y-12">
         <div class="border-b border-gray-900/10 pb-12">
-            <h2 class="text-2xl font-bold leading-7 text-gray-900">Crear publicacion</h2>
+            <h2 class="text-2xl font-bold leading-7 text-gray-900">Editar evento</h2>
 
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-4">
-                    <label for="titulo" class="block text-sm font-medium leading-6 text-gray-900">Titulo</label>
+                    <label for="titulo" class="block text-sm font-medium leading-6 text-gray-900">Nombre del evento</label>
                     <div class="mt-2">
                         <div
                             class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -24,17 +24,7 @@
                 </div>
 
                 <div class="col-span-full">
-                    <label for="description"
-                        class="block text-sm font-medium leading-6 text-gray-900">Descripción</label>
-                    <div class="mt-2">
-                        <input id="description" name="description" rows="3" value="{{entity.description}}"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
-                </div>
-
-                <div class="col-span-full">
-                    <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Foto de la
-                        publicacion</label>
+                    <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Foto del evento</label>
                     <div class="text-center flex justify-content-center">
                         <div class="">
                             <label for="imagen">Imagen actual</label>
@@ -67,9 +57,19 @@
 
         <div class="border-b border-gray-900/10 pb-12">
             <div class="sm:col-span-4">
-                <label for="direccion" class="block text-sm font-medium leading-6 text-gray-900">Direccion</label>
+                <label for="lugar" class="block text-sm font-medium leading-6 text-gray-900">Lugar</label>
                 <div class="mt-2">
-                    <input id="direccion" name="direccion" type="text" value="{{entity.direccion}}"
+                    <input id="lugar" name="lugar" type="text" value="{{entity.lugar}}"
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+            </div>
+        </div>
+        <div class="border-b border-gray-900/10 pb-12">
+            <div class="sm:col-span-4">
+                <label for="timestamp" class="block text-sm font-medium leading-6 text-gray-900">Fecha y hora del evento</label>
+                <div class="mt-2">
+                    <p>Fecha anterior: {{entity.timestamp}}</p>
+                    <input id="timestamp" name="timestamp" type="datetime-local" required 
                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
             </div>
@@ -86,7 +86,7 @@
 </form>
 <script>
     function editar() {
-        if (document.getElementById("direccion").value != "") {
+        if (document.getElementById("lugar").value != "") {
             event.preventDefault();
 
             var xhttp;
@@ -94,7 +94,7 @@
             xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = handleResponse;
 
-            var lugar = document.getElementById("direccion").value;
+            var lugar = document.getElementById("lugar").value;
 
             var url = "https://nominatim.openstreetmap.org/search?q=" + lugar +
                 "&format=json&addressdetails=1";

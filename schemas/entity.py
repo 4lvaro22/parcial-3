@@ -1,13 +1,10 @@
-from models.entity_dto import Entity, EntityForm
+from models.entity_dto import Eventos
 
-def entityEntity(entity) -> Entity:
-    return Entity(**{
+def eventosEntity(entity) -> Eventos:
+    return Eventos(**{
         **entity,
         "id": str(entity["_id"])})
 
 
-def entityList(entities) -> list[Entity]:
-    return [entityEntity(entity) for entity in entities]
-
-def entityEntityForm(entity):
-    return EntityForm({**entity})
+def eventosList(entities) -> list[Eventos]:
+    return [eventosEntity(entity) for entity in entities]
