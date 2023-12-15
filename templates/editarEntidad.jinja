@@ -113,7 +113,7 @@
                     var response = xhttp.responseText;
                     var texto = JSON.parse(response);
 
-                    if (texto == null) {
+                    if (texto.length == 0) {
                         document.getElementById("avisoLugar").innerHTML = "Lugar no encontrado. Pruebe con otro."
                     } else {
                         document.getElementById("latitud").value = texto[0].lat;
