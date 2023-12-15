@@ -34,6 +34,10 @@
 {%endfor%}
 
 {% include "mapas/mapaGlobal.jinja"%}
+{% else %}
+<div class="font-bold text-3xl xl:text-7xl lg:text-6xl md:text-5xl mt-10">
+                Ops! Parece que no has hecho una búsqueda. Vamos a buscar eventos!! 
+            </div>
 {% endif %}
 <script>
     function filtrar() {
