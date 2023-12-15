@@ -7,7 +7,7 @@ def setImage(entity : dict, image : UploadFile, key : str = "images",):
     imagesUrl = ""
 
     if image.size > 0 and image.content_type.startswith("image"):
-        response = upload(image, folder="parcial3/")
+        response = upload(image, folder="parcial-3")
         imagesUrl = response
     if imagesUrl != "":
         entity[key] = imagesUrl
@@ -20,7 +20,7 @@ def upload(file, folder=""):
 
     file.filename = str(public_id)
     
-    response = upload_image(file.file, folder="parcial3/" + folder)
+    response = upload_image(file.file, folder)
     
     if response is None:
         raise HTTPException(status_code=500, detail="Internal Server Error")
